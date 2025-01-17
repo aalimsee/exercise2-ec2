@@ -1,12 +1,14 @@
 resource "aws_instance" "public" {
-  ami                         = "${var.linuxOS}" # Amazon Machine Image (AMI)
+  ami                         = var.linuxOS # Amazon Machine Image (AMI)
   instance_type               = "t2.micro"
   subnet_id                   = "${var.subnet_id}" # Public Subnet ID, e.g. subnet-xxxxxxxxxxx
   associate_public_ip_address = true
   key_name                    = "${var.keypair}" # Change to your keyname, e.g. jazeel-key-pair
   vpc_security_group_ids      = [aws_security_group.allow_ssh.id]
+  
   tags = {
     Name = "aalimsee-ce9-tf-ec2"    #Prefix your own name, e.g. jazeel-ec2
+    description = "${var.linuxOS}-AWS Linux AMI"
   }
 }
 
