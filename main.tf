@@ -3,7 +3,7 @@ resource "aws_instance" "public" {
   ami                         = var.linux-OS # Amazon Machine Image (AMI)
   instance_type               = "t2.micro"
   key_name                    = "${var.keypair}" # Change to your keyname, e.g. jazeel-key-pair
-  subnet_id                   = data.aws_subnet.public_subnet.id # Public Subnet ID, e.g. subnet-xxxxxxxxxxx
+  subnet_id                   = data.aws_subnets.public.ids[0] # Public Subnet ID, e.g. subnet-xxxxxxxxxxx
   associate_public_ip_address = true
   vpc_security_group_ids      = [aws_security_group.allow_ssh.id]
   
@@ -26,6 +26,6 @@ resource "aws_vpc_security_group_ingress_rule" "allow_tls_ipv4" {
   security_group_id = aws_security_group.allow_ssh.id # Based on above allow_ssh - resource local name
   cidr_ipv4         = "0.0.0.0/0"  
   from_port         = 22
-  ip_protocol       = "tcp"
   to_port           = 22
+  ip_protocol       = "tcp"
 }
